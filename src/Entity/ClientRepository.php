@@ -12,7 +12,7 @@
 namespace Perseids\ClientsManager\Entity;
 
 use AuthBucket\OAuth2\Model\ClientManagerInterface;
-use Perseids\Entity\AbstractEntityRepository;
+use Perseids\ClientsManager\Entity\AbstractEntityRepository;
 
 /**
  * ClientRepository

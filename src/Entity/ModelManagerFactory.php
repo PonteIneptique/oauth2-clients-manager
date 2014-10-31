@@ -9,11 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Perseids\Entity;
+namespace Perseids\ClientsManager\Entity;
 
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Model\ModelManagerInterface;
+
 use Doctrine\ORM\EntityManager;
 
 /**

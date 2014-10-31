@@ -106,11 +106,7 @@ class ClientController
             	$client->setClientSecret($this->GenerateSecretId());
 
           	}
-            /*
-            $user->setName($request->request->get('clientId'));
-            $user->setEmail($request->request->get('clientSecret'));
-            $user->setEmail($request->request->get('clientManager'));
-            */
+            //$user->setEmail($request->request->get('clientManager'));
             $this->clientManager->update($client);
             return $app->redirect($app['url_generator']->generate('clients.view', array('id' => $client->getId())));
         }

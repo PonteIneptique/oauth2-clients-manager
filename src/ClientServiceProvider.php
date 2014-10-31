@@ -1,6 +1,6 @@
 <?php
 
-namespace Perseids\ClientsManager\Clients;
+namespace Perseids\ClientsManager;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -12,10 +12,14 @@ use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
+
+use Doctrine\ORM\EntityManager;
 use Perseids\ClientsManager\Entity\ModelManagerFactory;
 
 class ClientServiceProvider implements ServiceProviderInterface, ControllerProviderInterface
 {
+
+    protected $em;
 
     /**
      * Instantiate the Class
@@ -100,6 +104,16 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
         if (isset($app['twig.loader.filesystem'])) {
             $app['twig.loader.filesystem']->addPath(__DIR__ . '/views/', 'clients');
         }
+
+        $app['doctrine.orm.clients_entity_manager'] = $app->share(function ($app) {
+            $conn = $app['dbs']['default'];
+            $em = $app['dbs.event_manager']['default'];
+           
+            $isDevMode = false;
+            $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__.'/Entity'), $isDevMode, null, null, false);
+
+            return EntityManager::create($conn, $config, $em);
+        });
     }
 
     /**
