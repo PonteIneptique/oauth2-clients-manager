@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Client
  *
  * @ORM\Table(name="authbucket_oauth2_client")
- * @ORM\Entity(repositoryClass="Perseids\Entity\ClientRepository")
+ * @ORM\Entity(repositoryClass="Perseids\ClientsManager\Entity\ClientRepository")
  */
 class Client implements ClientInterface
 {
