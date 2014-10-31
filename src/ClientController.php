@@ -2,6 +2,8 @@
 
 namespace Perseids\ClientsManager;
 
+use Perseids\ClientsManager\Entity\ModelManagerFactory;
+
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,9 +12,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use InvalidArgumentException;
 use JasonGrimes\Paginator;
-
-use SimpleUser\UserManager;
-use Perseids\Entity\ModelManagerFactory;
 
 /**
  * Controller with actions for handling form-based authentication and user management.
@@ -106,7 +105,7 @@ class ClientController
             	$client->setClientSecret($this->GenerateSecretId());
 
           	}
-            //$user->setEmail($request->request->get('clientManager'));
+            $client->setRedirectUri($request->request->get('redirectUri'));
             $this->clientManager->update($client);
             return $app->redirect($app['url_generator']->generate('clients.view', array('id' => $client->getId())));
         }

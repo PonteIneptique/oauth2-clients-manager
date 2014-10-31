@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 
 use Doctrine\ORM\EntityManager;
 use Perseids\ClientsManager\Entity\ModelManagerFactory;
+use Perseids\ClientsManager\ClientEntityManager;
 
 class ClientServiceProvider implements ServiceProviderInterface, ControllerProviderInterface
 {
@@ -25,9 +26,8 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
      * Instantiate the Class
      * @param ModelManagerFactoryInterface $modelManagerFactory A AuthBucket Model Manager instance
      */
-    public function __construct(ModelManagerFactory $modelManagerFactory = null)
-    {
-        $this->modelManagerFactory = $modelManagerFactory;
+    public function __construct(Application $app) {
+        $this->em = new ClientEntityManager($app);
     }
 
     /**
@@ -40,8 +40,9 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
      */
     public function register(Application $app)
     {
+        $this->modelManagerFactory = $app['clients.model_manager.factory'];
+
         // Default options.
-        
         $app['clients.options.default'] = array(
             // Specify custom view templates here.
             'templates' => array(
@@ -76,7 +77,7 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
         // User controller service.
         $app['clients.controller'] = $app->share(function ($app) {
             //$app['clients.options.init']();
-            $controller = new ClientController($this->modelManagerFactory);
+            $controller = new ClientController($app['clients.model_manager.factory']);
 
             return $controller;
         });
@@ -104,16 +105,6 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
         if (isset($app['twig.loader.filesystem'])) {
             $app['twig.loader.filesystem']->addPath(__DIR__ . '/views/', 'clients');
         }
-
-        $app['doctrine.orm.clients_entity_manager'] = $app->share(function ($app) {
-            $conn = $app['dbs']['default'];
-            $em = $app['dbs.event_manager']['default'];
-           
-            $isDevMode = false;
-            $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__.'/Entity'), $isDevMode, null, null, false);
-
-            return EntityManager::create($conn, $config, $em);
-        });
     }
 
     /**
