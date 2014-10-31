@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Client
  *
- * @ORM\Table(name="authbucket_oauth2_client")
+ * @ORM\Table(name="perseids_clients_client")
  * @ORM\Entity(repositoryClass="Perseids\ClientsManager\Entity\ClientRepository")
  */
 class Client implements ClientInterface
@@ -25,7 +25,7 @@ class Client implements ClientInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -37,6 +37,20 @@ class Client implements ClientInterface
      * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $clientId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_name", type="string", length=255, unique=true)
+     */
+    protected $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_description", type="string", length=255)
+     */
+    protected $description;
 
     /**
      * @var string
@@ -132,5 +146,53 @@ class Client implements ClientInterface
     public function getRedirectUri()
     {
         return $this->redirectUri;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Client
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Client
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

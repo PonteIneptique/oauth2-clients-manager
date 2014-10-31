@@ -1,21 +1,20 @@
 {% extends layout  %}
 
-{% block title %}Client Editor{% endblock %}
+{% block title %}Client Creator{% endblock %}
 
 {% block content %}
 
-    <h1>Edit Client <b>{{ client.name  }}</b></h1>
+    <h1>Create Client</h1>
     {% if error %}
         <div class="alert alert-danger">{{ error|nl2br }}</div>
     {% endif %}
     <form class="form-horizontal" method="POST">
-
         <div class="form-group">
             <label class="col-sm-4 control-label" for="clientName">
                 Name
             </label>
             <div class="col-sm-8 form-control-static">
-                <input class="form-control" name="clientName" type="text" id="clientName" placeholder="Client Name" value="{{ client.name }}">
+                <input class="form-control" name="clientName" type="text" id="clientName" placeholder="Client Name">
             </div>
         </div>
 
@@ -24,16 +23,7 @@
                 Description
             </label>
             <div class="col-sm-8 form-control-static">
-                <input class="form-control" name="clientDescription" type="text" id="clientDescription" placeholder="Client Description" value="{{ client.description }}">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-4 control-label" for="regenerateSecrete">
-                Regenerate secret
-            </label>
-            <div class="col-sm-8 form-control-static">
-                <input type="checkbox" id="regenerateSecrete" name="regenerateSecrete" value="regenerate"/>
+                <input class="form-control" name="clientDescription" type="text" id="clientDescription" placeholder="Client Description">
             </div>
         </div>
 

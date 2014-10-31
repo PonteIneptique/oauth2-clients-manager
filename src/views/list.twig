@@ -5,27 +5,33 @@
 {% block content %}
 
     <h1>List of API Clients</h1>
+    
+    <p class="text-center">
+        <a href="{{ path('clients.create') }}" class="btn btn-block btn-success">Create</a>
+    </p>
 
+    <p>
     {% if paginator.totalItems == 1 %}
         <strong>1</strong> user found.
     {% else %}
         <strong>{{ paginator.totalItems }}</strong> users found.
     {% endif %}
 
-    Showing <strong>{{ paginator.currentPageFirstItem }} - {{ paginator.currentPageLastItem }}</strong>.
+    Showing <strong>{{ paginator.currentPageFirstItem }} - {{ paginator.currentPageLastItem }}</strong>.</p>
 
     {% for client in clients %}
         <div class="panel panel-primary">
           <div class="panel-heading">
-            (ClientId) <a href="{{ path('clients.view', {'id': client.id}) }}">{{ client.ClientID }}</a>
+            <a href="{{ path('clients.view', {'id': client.id}) }}">{{ client.name }}</a>
             <div class="pull-right">
                 <a href="{{ path('clients.edit', {'id': client.id}) }}"><span class="glyphicon glyphicon-edit"></span></a>
-                <span class="glyphicon glyphicon-remove"></span>
+                <a href="{{ path('clients.remove', {'id': client.id}) }}"><span class="glyphicon glyphicon-remove"></span></a>
             </div>
           </div>
           <div class="panel-body" style="background-color:white; color:black;">
             <dl class="dl-horizontal">
-                <dt>Secret</dt><dd>{{ client.ClientSecret }}</dd>
+                <dt>Description</dt><dd>{{ client.description }}</dd>
+                <dt>ID</dt><dd>{{ client.ClientID }}</dd>
                 <dt>Redirect URI</dt><dd>{{ client.RedirectUri }}</dd>
             </dl>
           </div>

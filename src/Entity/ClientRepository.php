@@ -50,8 +50,8 @@ class ClientRepository extends AbstractEntityRepository implements ClientManager
     }
 
     /**
-     * [createUser description]
-     * @return [type] [description]
+     * Create a new instance of the entity of this repository
+     * @return Client A client Instance (Empty)
      */
     
     public function create()
@@ -61,8 +61,8 @@ class ClientRepository extends AbstractEntityRepository implements ClientManager
     }
 
     /**
-     * [delete description]
-     * @param  Client $client [description]
+     * Remove a client from the databasee
+     * @param  Client $client A Client instance
      * @return [type]         [description]
      */
     

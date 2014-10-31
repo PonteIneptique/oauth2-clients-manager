@@ -28,6 +28,8 @@ class ClientController
         'view' => '@clients/view.twig',
         'edit' => '@clients/edit.twig',
         'list' => '@clients/list.twig',
+        'create' => '@clients/create.twig',
+        'remove' => '@clients/remove.twig',
     );
 
     /**
@@ -43,7 +45,7 @@ class ClientController
      * [__construct description]
      * @param ModelManagerFactoryInterface $modelManagerFactory [description]
      */
-    public function __construct(ModelManagerFactory $modelManagerFactory = null, Application $doctrine = null)
+    public function __construct(ModelManagerFactory $modelManagerFactory = null)
     {
         $this->modelManagerFactory = $modelManagerFactory;
         $this->clientManager = $this->modelManagerFactory->getModelManager('client');
@@ -53,7 +55,7 @@ class ClientController
      * Generate a Secret ID string
      */
     public function GenerateSecretId() {
-        return substr(md5(uniqid(null, true)), 0, 8);
+        return substr(hash("sha512", uniqid(null, true)), 0, 64);
     }
 
     /**
@@ -92,6 +94,27 @@ class ClientController
         ));
     }
 
+    public function deleteAction(Application $app, Request $request, $id) {
+        $errors = array();
+        $criteria = array("id" => $id);
+        $client = $this->clientManager->findOneBy(
+            $criteria
+        );
+
+        if ($request->isMethod('POST') && $id == $request->request->get('clientid')) {
+            /*
+             * Fetching the POST ID and comparing it with the get onee
+             */
+            $this->clientManager->delete($client);
+            return $app->redirect($app['url_generator']->generate('clients.list'));
+        }
+
+        return $app['twig']->render($this->getTemplate('remove'), array(
+            "client" => $client,
+            "error" => $errors
+        ));
+    }
+
 
     public function editAction(Application $app, Request $request, $id) {
         $errors = array();
@@ -111,6 +134,29 @@ class ClientController
         }
 
         return $app['twig']->render($this->getTemplate('edit'), array(
+            "client" => $client,
+            "error" => $errors
+        ));
+    }
+
+    public function createAction(Application $app, Request $request) {
+        $errors = array();
+
+        $client = $this->clientManager->create();
+
+        if ($request->isMethod('POST')) {
+
+            $client ->setClientSecret($this->GenerateSecretId())
+                    ->setClientId($this->GenerateClientId())
+                    ->setName($request->request->get('clientName'))
+                    ->setDescription($request->request->get('clientDescription'))
+                    ->setRedirectUri($request->request->get('redirectUri'));
+
+            $this->clientManager->update($client);
+            return $app->redirect($app['url_generator']->generate('clients.view', array('id' => $client->getId())));
+        }
+
+        return $app['twig']->render($this->getTemplate('create'), array(
             "client" => $client,
             "error" => $errors
         ));

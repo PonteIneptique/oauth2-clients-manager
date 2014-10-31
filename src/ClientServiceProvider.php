@@ -49,29 +49,21 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
                 'view' => '@clients/view.twig',
                 'edit' => '@clients/edit.twig',
                 'list' => '@clients/list.twig',
+                'create' => '@clients/create.twig',
+                'remove' => '@clients/remove.twig',
             )
         );
 
 
-        // Initialize $app['user.options'].
-        $app['user.options.init'] = $app->protect(function() use ($app) {
-            $options = $app['user.options.default'];
-            if (isset($app['user.options'])) {
-                // Merge default and configured options
-                $options = array_replace_recursive($options, $app['user.options']);
+        // Initialize $app['clients.options'].
+        $app['clients.options.init'] = $app->protect(function() use ($app) {
+            $options = $app['clients.options.default'];
 
-                // Migrate deprecated options for backward compatibility
-                if (isset($app['user.options']['viewTemplate']) && !isset($app['user.options']['templates']['view'])) {
-                    $options['templates']['view'] = $app['user.options']['viewTemplate'];
-                }
-                if (isset($app['user.options']['editTemplate']) && !isset($app['user.options']['templates']['edit'])) {
-                    $options['templates']['edit'] = $app['user.options']['editTemplate'];
-                }
-                if (isset($app['user.options']['listTemplate']) && !isset($app['user.options']['templates']['list'])) {
-                    $options['templates']['list'] = $app['user.options']['listTemplate'];
-                }
+            if (isset($app['clients.options'])) {
+                $options = array_replace_recursive($options, $app['clients.options']);
             }
-            $app['user.options'] = $options;
+
+            $app['clients.options'] = $options;
         });
 
         // User controller service.
@@ -125,8 +117,15 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
         /** @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
 
+
+        $controllers->method('GET|POST')->match('/create', 'clients.controller:createAction')
+            ->bind('clients.create');
+
         $controllers->method('GET|POST')->match('/edit/{id}', 'clients.controller:editAction')
             ->bind('clients.edit');
+
+        $controllers->method('GET|POST')->match('/delete/{id}', 'clients.controller:deleteAction')
+            ->bind('clients.remove');
 
         $controllers->get('/list', 'clients.controller:listAction')
             ->bind('clients.list');

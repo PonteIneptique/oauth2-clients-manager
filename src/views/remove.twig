@@ -1,17 +1,22 @@
 {% extends layout  %}
 
-{% block title %}Client Viewer{% endblock %}
+{% block title %}Client Destructor{% endblock %}
 
 {% block content %}
     <div class="panel panel-primary">
         <div class="panel-heading">
-            {{ client.name }}
-            <div class="pull-right">
-                <a href="{{ path('clients.edit', {'id': client.id}) }}"><span class="glyphicon glyphicon-edit"></span></a>
-                <a href="{{ path('clients.remove', {'id': client.id}) }}"><span class="glyphicon glyphicon-remove"></span></a>
-            </div>
+            Delete {{ client.name }} ?
           </div>
           <div class="panel-body" style="background-color:white; color:black;">
+            <form method="POST">
+                <p>Are you sure you want to remove this client ?</p>
+                <input type="hidden" name="clientid" value="{{ client.id }}">
+                <div class="text-center">
+                    <a  href="{{ path('clients.list') }}" class="btn btn-primary">Cancel</a> - 
+                    <button type="submit" class="btn btn-danger">Remove</button>
+                </div>
+            </form>
+            <hr />
             <dl>
                 <dt>Description</dt><dd>{{ client.description }}</dd>
                 <dt>ID</dt><dd>{{ client.ClientID }}</dd>
