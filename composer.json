@@ -24,7 +24,7 @@
     ],
     "license": "MIT",
     "minimum-stability": "dev",
-    "name": "ponteineptique/oauth2-clients-manager",
+    "name": "perseids/clients-manager",
     "require": {
         "php": ">=5.3.9",
 		"silex/silex": "~1.2",
