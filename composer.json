@@ -1,0 +1,41 @@
+{
+    "authors": [
+        {
+            "email": "leponteineptique@gmail.com",
+            "homepage": "http://algorythme.net",
+            "name": "Thibault Clerice"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Perseids\\ClientsManager": "src/"
+        }
+    },
+    "description": "An Implementation of a Client Manager for oAuthBucket oAuth2 implementation",
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.x-dev",
+            "dev-master": "0.1.x-dev"
+        }
+    },
+    "homepage": "https://github.com/ponteineptique/oauth2-clients-manager",
+    "keywords": [
+        "oauth2"
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "name": "ponteineptique/oauth2-clients-manager",
+    "require": {
+        "php": ">=5.3.9",
+		"silex/silex": "~1.2",
+		"doctrine/orm": "~2.2,>=2.2.3",
+        "twig/twig": "~1.8",
+		"authbucket/oauth2-php": "~2.3",
+		"jasongrimes/paginator": "~1.0",
+	},
+	"require-dev" : {
+		"silex/silex": "~1.2",
+		"jasongrimes/silex-simpleuser": "~1.7"
+	},
+    "type": "library"
+}
