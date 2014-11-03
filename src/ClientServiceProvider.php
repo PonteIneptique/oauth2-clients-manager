@@ -21,15 +21,6 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
 {
 
     protected $em;
-
-    /**
-     * Instantiate the Class
-     * @param ModelManagerFactoryInterface $modelManagerFactory A AuthBucket Model Manager instance
-     */
-    public function __construct(Application $app) {
-        $this->em = new ClientEntityManager($app);
-    }
-
     /**
      * Registers services on the given app.
      *
@@ -40,6 +31,8 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
      */
     public function register(Application $app)
     {
+        $this->em = new ClientEntityManager($app);
+
         $this->modelManagerFactory = $app['clients.model_manager.factory'];
 
         // Default options.
@@ -132,10 +125,7 @@ class ClientServiceProvider implements ServiceProviderInterface, ControllerProvi
 
         $controllers->get('/view/{id}', 'clients.controller:viewAction')
             ->bind('clients.view');
-/*
-        $controllers->get('', 'clients.controller:listAction')
-            ->bind('clients.home');
-*/
+            
         return $controllers;
     }
 }
