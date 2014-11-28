@@ -23,17 +23,9 @@
 
     "name": "perseids/clients-manager",
 
-
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/ponteineptique/oauth2-php.git"
-        }
-    ],
-
     "require": {
         "php": ">=5.3.9",
-        "authbucket/oauth2-php" : "2.3.4",
+        "authbucket/oauth2-php" : "~2.4",
         "silex/silex": "~1.2",
         "doctrine/orm": "~2.2,>=2.2.3",
         "twig/twig": "~1.8",
